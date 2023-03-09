@@ -15,8 +15,5 @@ def recurse(subreddit, hot_list=[]):
     for post in posts:
         hot_list.append(post['data']['title'])
     if json_data['data']['after'] is not None:
-        recurse(subreddit,
-                hot_list=hot_list,
-                params={'after': json_data['data']['after']})
+        recurse(subreddit, hot_list=hot_list, params={'after': json_data['data']['after']})
     return hot_list
-
