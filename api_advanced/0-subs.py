@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""  functions returns the number of subscribers """
 
 import requests
 
