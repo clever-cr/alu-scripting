@@ -8,8 +8,10 @@ def recurse(subreddit, hot_list=[], after=None):
 
     if after is not None:
         url = "https://www.reddit.com/r/{}/hot.json?after={}".format(subreddit, after)
-    else:
+    elif after is None and len(hot_list) == 0:
         url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    else:
+        return hot_list
     headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(url, headers=headers, allow_redirects=False)
     if not response.ok:
