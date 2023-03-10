@@ -17,7 +17,6 @@ def recurse(subreddit, hot_list=[], after=None):
     json_data = response.json()
     length = len(hot_list)
     hot_list.extend([i["data"]["title"] for i in json_data["data"]["children"]])
-    print("lastttttttt", len(hot_list), length)
     if after is not None or length == 0:
         return recurse(subreddit, hot_list, json_data["data"]["after"])
     else:
