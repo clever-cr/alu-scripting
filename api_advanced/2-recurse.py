@@ -4,16 +4,21 @@
 import requests
 
 
-def recurse(subreddit, hot_list=[]):
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+def recurse(subreddit, hot_list=[], after=None):
+
+    if after is not None:
+        url = "https://www.reddit.com/r/{}/hot.json?after={}".format(subreddit, after)
+    else:
+        url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(url, headers=headers, allow_redirects=False)
     if not response.ok:
         return None
     json_data = response.json()
-    posts = json_data['data']['children']
-    for post in posts:
-        hot_list.append(post['data']['title'])
-    if json_data['data']['after'] is not None:
-        recurse(subreddit, hot_list=hot_list, params={'after': json_data['data']['after']})
-    return hot_list
+    length = len(hot_list)
+    hot_list.extend([i["data"]["title"] for i in json_data["data"]["children"]])
+    print("lastttttttt", len(hot_list), length)
+    if after is not None or length == 0:
+        return recurse(subreddit, hot_list, json_data["data"]["after"])
+    else:
+        return hot_list
